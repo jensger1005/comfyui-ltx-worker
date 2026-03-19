@@ -2,4 +2,10 @@ FROM runpod/worker-comfyui:latest-base
 
 RUN comfy-node-install comfyui-videohelpersuite comfyui-kjnodes
 
-RUN comfy model download --url https://huggingface.co/Lightricks/LTX-2.3-fp8/resolve/main/ltx-2.3-22b-dev-fp8.safetensors --relative-path models/checkpoints/ || true
+RUN echo 'network_volume:' > /comfyui/extra_model_paths.yaml && \
+    echo '  base_path: /runpod-volume/ComfyUI' >> /comfyui/extra_model_paths.yaml && \
+    echo '  checkpoints: models/unet' >> /comfyui/extra_model_paths.yaml && \
+    echo '  diffusion_models: models/unet' >> /comfyui/extra_model_paths.yaml && \
+    echo '  vae: models/vae' >> /comfyui/extra_model_paths.yaml && \
+    echo '  clip: models/clip' >> /comfyui/extra_model_paths.yaml && \
+    echo '  latent_upscale_models: models/latent_upscale_models' >> /comfyui/extra_model_paths.yaml
